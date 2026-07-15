@@ -1,0 +1,138 @@
+Slash Commands:
+-> Slash Commands are shortcuts you type inside Claude Code session,
+starting with '/', that triggers a specific predefined action or
+worflow instantly - without writing out a full prompt.
+
+-> These are built-in commands that ship with Claude Code and there
+are Custom Commands that we build ourselves.
+
+Sessions in Claude Code :
+-> A session is a conversation with Claude-Code- everything from when
+you run claude the first time to when you type /exit slash command.
+
+-> It has a unique ID, captures full message history, all files reads,
+all tool results, and current working directory.
+
+-> Sessions are saved automatically to ~/.claude/projects/ and can be
+resumed at any time, even after closing the terminal.
+"claude -r" and then select the conversation you want to continue.
+
+-> To go from one session to another session the slash command that can
+be used is "/resume"
+
+-> One session = one task.For example in a big application we can implement
+one new feature as one new session. Rename your new session immediately.
+Perform Commits frequenty within a session.
+
+-> Use "/btw" for quick questions that is while building you had some doubt
+which is out lets say of same topic but not directly related to what you are
+building then use "/btw". Export a session before a big refactor of code so
+that it creates a file in your directory that has all the conversational context
+of this session which can be used in future.
+
+/logout - Logout from Anthropic account
+/login - Login to Anthropic account
+/model - to switch between the model
+/stats - On which day you used what model how many token and many information about
+our Claude usage.
+/insights - Give us insights about how we used Claude and what is our patter
+and it recommends us to how to use Claude and how can we improve our usage.
+/configure - Change our Claude Settings
+/permissions - It is used to give whatever and how much access we want to give to 
+different tools that Claude use. For example only read access to some tools and 
+both read and write access to some tools depending on the usage.
+/voice - allow voice assistant
+
+-> Now whenever we want to tell Claude that we want to change the code in particular
+file then we can use '@[file_path]'.This is called mentioning.
+
+CONTEXT WINDOW MANAGEMENT IN CLAUDE CODE : How to use context window effectively
+-> What exactly is context? It is all the information available to understand something
+correctly. For example in terms to a developer to understand application working context
+can be Codebase, Specs documentation, PRD, JIRA/Github Issues, Slack Messages, Previous AI chats
+Git history/PRs
+
+Context Window : 
+-> The maximum amount of context  the model can hold at once and there is a limit
+which is measured in tokens and this limit is called context window.Claude Code has the context
+window of 200k token - Sonnet model but Opus 4.8 is about to have 1M token context window.
+Each new session starts with new fresh context window.
+
+-> Tokens are consumed by both the user's prompt/question and claude's replies in session that is 
+called as both input and output tokens. Claude's replies that is the output token consumes 6x times
+more tokens than the input token that are prompt.
+
+-> Every new request sends the entire conversation history of that session with your new questions which
+in turns consumer lots amount of tokens. So, the best pratice is to create a new session per new feature/task
+and not use a single session for all conversation.
+
+-> In Claude Code there is a concept of Subagent where if you have different parallel tasks then you can 
+trigger multiple parallel sub agents for different tasks and each have their own isloated context window
+which doesnt count into the main claude code agent. After sub-agent completes it tasks it return the summary
+of the full working history and not the whole conversation
+
+Why Context Window is so much important ?
+-> Because it is directly connected to cost because all we do is use token. So if we try to manage context window
+it will inturn manage token usage which will inturn manage cost so we should structure our workflow in optimized way.
+
+-> Also, as context window fills up, Response Quality degrades gradually. There are two ways to mantain
+the response quality in which one of the way is handled by Claude Code itself. The first way is when our
+context window reaches ~75% and when CLaude code understands that the response quality is degrading then
+then Claude Code itself build compact file which is a summary file of whole conversation and stores in
+AutCompact trigger area of its context window management and later when it sees that this area is also filling
+then it hard stops the conversation and then we need to start a new session.
+
+-> Another way is using "/compact" slash command in which whenever we find the we have used a session for too much
+longer time and response quality is breaking then we will use this command and start a new conversation with the help
+of the summary that is stored in AutoCompact Triggers area where the last one conversation summary is saved.
+
+-> Out of both the ways, the most perfect way to the second one as the problem in the first way is Claude can AutCompact
+the conversation in between when we are prompting of the response is being triggered which is a bit worse. What one can do
+is also trigger a subagent for the next task as sub-agent has its own context window separate from main claude code agent.
+
+-> /clear = clears all the current conversation and we can start with a fresh new conversation in same session. But a whole new
+session should be preferred.
+
+-> Keep irrelevant file or those files which you do not want CLaude to go through in .claudeignore file.
+
+Claude.md file
+what is the need of Claude.md file ?
+-> So, the problem is LLM's dont have memory and Claude Cide is built on Anthropic Session so it also cannot
+remember previous sessions so we need to repeat the instructions of the task we want to achieve everytime which
+is very cumbersome and it can happen that someday we forget some important instructions in prompt which man
+lead to inconsistent code generation so we will need this file to write all important task so that our LLM refers
+to it and our code generation remains consistent.
+
+-> Instead of repeatedly giving prompts to claude:
+    how your project is structured
+    coding conventions
+    how to build/run/test
+    what tools to use
+We put all of these instructions into claude.md file and claude automatically uses it as context every time.
+
+-> We can create this Claude.md file manually but using "/init", Claude itself creates this file for us.
+On telling /init to Claude, it triggers an internal agent that takes over the scanning and writing task. 
+
+AutoMemory - It is a persistent directory where Claude records learnings, patterns, and insights as it works.
+When Claude discovers something new about the project, it saves in that auto memory. Next session, it already
+knows that updated thing and we need not to repeat the updates again. It is basically a .md(markdown) file that resites
+in home claude folder ~/.claude/projects/<project>/memory/:
+
+Spec Driven Development
+-> Spec Driven Development is the core pillar of Agentic Developing and Agentic Developing is very different from
+Vibe coding.
+
+What is actually Vibe Coding :-It is a modern style of programming where instead of carefully planning everything upfront
+you build software by interacting with an AI assistant in a fast, conversational, and experimental way. The problem with vibe coding
+is we lose the control of the development (that is code and other things) because the coding assistant will take all the decisions.
+And that is not the correct way, because if we want to build something according to our thinking, and if we coding assistant builds
+thw whole things correctly but in some other ways we need to again write the prompt and then eventually we go into the correction
+loop and the covnersation and memeory becomes messy.
+
+So, we do Spec driven Development in which we maintain a spec document where we give all the detail we want to build with all the
+necessary questions and answers so then the assisant can build according to what we want and the conversation remains stable.
+
+Complete Workflow of Spec Driven Development:
+Spec -> Review -> Design -> Review -> Tasks -> Build -> Validate
+And in this worfklow each of the component can be done by different features of claude code like Plan Mode, Sub agents,
+Custom Slash commands exactly
