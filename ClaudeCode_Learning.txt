@@ -136,3 +136,26 @@ Complete Workflow of Spec Driven Development:
 Spec -> Review -> Design -> Review -> Tasks -> Build -> Validate
 And in this worfklow each of the component can be done by different features of claude code like Plan Mode, Sub agents,
 Custom Slash commands exactly
+
+Plan Mode: When triggered, Claude Code starts multiple agents and these agents understand and read the code. During plan mode we cannot 
+perform write operations because plan mode while reading will creating a very deep elaborate plan and after the plan is created then only
+we will execute the plan.
+
+Good Practices to Improve the performance of Plan Mode:
+-> Model Selection: Choosing of perfect model aacor
+-> Extended Thinking
+->Effort Level
+-> Ultra Plan mode : This is the new feature of Claude Code in which it create a plan for some complex task in Claude Code's server and not
+locally and every prompt has a new session in which it created a plan for every time and after completio we can either execute it through server
+or comeback locally and execute in terminal.
+
+Claude Code Custom Slash Commands:-
+Custom Slash Commands are basically saved prompts that invoke with a /command_name syntax and the main use is to execute the workflow in your
+project and they are written in .md files in claude folder. Examples of custom slash commands:
+/review : runs a code review checklist on the current file
+/commit : generates a git commit message based on stages chances
+/test: runs the test suite and analyzes any failures
+/security-scan : scans the codebase for common vulnerabilities like SQL injection or exposed credentials.
+
+Also the name of the custom slash command will be same as that of the file name which we will create in .claude
+folder under commands folder to describes about what that particular command will do.
