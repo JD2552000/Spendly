@@ -125,3 +125,36 @@ def seed_db():
         conn.commit()
     finally:
         conn.close()
+
+
+def get_user_by_email(email):
+    """Return the users row matching email, or None if no such user exists.
+
+    The email is queried verbatim — callers are responsible for normalizing
+    (strip + lowercase) before lookup.
+    """
+    conn = get_db()
+    try:
+        return conn.execute(
+            "SELECT * FROM users WHERE email = ?", (email,)
+        ).fetchone()
+    finally:
+        conn.close()
+
+
+def create_user(name, email, password):
+    """Insert a new user with a hashed password; return the new row id.
+
+    The raw password is never stored — only its werkzeug hash. created_at
+    falls back to the table's datetime('now') default.
+    """
+    conn = get_db()
+    try:
+        cur = conn.execute(
+            "INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)",
+            (name, email, generate_password_hash(password)),
+        )
+        conn.commit()
+        return cur.lastrowid
+    finally:
+        conn.close()
