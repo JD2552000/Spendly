@@ -11,7 +11,7 @@ import calendar
 import sqlite3
 from datetime import date
 
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # Resolve the DB path relative to the project root, not the current working
 # directory. This module lives in <root>/database/db.py, so two dirname() calls
@@ -140,6 +140,19 @@ def get_user_by_email(email):
         ).fetchone()
     finally:
         conn.close()
+
+
+def verify_user(email, password):
+    """Return the user row if email exists and the password matches, else None.
+
+    The email is queried verbatim via get_user_by_email — callers should
+    normalize (strip + lowercase) before calling. Passwords are checked with
+    werkzeug's check_password_hash; plaintext is never compared or stored.
+    """
+    user = get_user_by_email(email)
+    if user and check_password_hash(user["password_hash"], password):
+        return user
+    return None
 
 
 def create_user(name, email, password):
