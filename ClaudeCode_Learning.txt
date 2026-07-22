@@ -159,3 +159,70 @@ project and they are written in .md files in claude folder. Examples of custom s
 
 Also the name of the custom slash command will be same as that of the file name which we will create in .claude
 folder under commands folder to describes about what that particular command will do.
+
+CLAUDE CODE : SKILLS
+What problems does skills feature solve ? 
+-> Claude is a general-purpose language model. It can reason, write, code across many domains. But there's a gap between general capability and reliable
+high quality output for a specific task type which means these models lag when we ask them to peform high quality complex
+tasks. Example is a PPT generation.
+Claude knows how to generate PPT on any topic that is:
+-> It knows what Powerpoint is
+-> It can reason about slide structure
+-> It knows which python library to use.
+But then also it is not able to create a great PPT for us Because it does not knows
+-> How to handle layout
+-> Which font to use
+-> How and where to plot the charts
+-> Company's guidelines to design the PPT.
+
+In short, it can only generalize any task and cannot specialize that particular task 
+as it does not know the specific guidelines.
+
+So,
+Problem : LLM's only generalize and won't do well on specialized tasks.
+Solution : Write detailed prompts!
+
+But what if we need to repetitivly write this prompt for different tasks. We can make a system prompt
+but then each time the LLM gets run there will be more and more tokens burning due to system prompt.
+And we want tasks like first read a whole pdf and then create a ppt then to bundle resource with prompt
+is very hard for an LLM to understand it. So we need a concept called SKILLS
+
+SKILLS: 
+Skills are resuable, a file-based resources that provides Claude with domain-specific expertise such as workflows,
+context, and best practices that transform general-purpose agents into specialits.
+Unlike prompts (instructions for one-off tasks), Skills load-on demand and eliminate the need to 
+repeatedly provide the same guidance across multiple conversations.
+
+Each Skill.md file has two main parts:
+The upper part is YAML frontmatter -> this part has two main things name of the skill and description which tell when to
+trigger this skill when claude code reads. 
+Now after that the section is Markdown Body: Here we mention the instructions, code patterns, pitfalls, validation steps
+references to scripts, file paths etc that claude will access.
+
+What is the process to load the SKILL: The process of that loads the Skills into the context window is called as progressive disclosure.
+Progressive Disclosure: 
+Step 1: First load all the description for all the skills (always visible)
+Step 2: Now as Claude has all the skill, it will look into the query and then choose particular skill which is necessary amd then
+load its Body.(load on-demand)
+Step 3: After the skill.md body gets loaded, it checks whether does it require further resources, links, path etc anything then it will
+load the Referenced Resources.(load on-demand)
+
+Types of Skills:
+Based on scope there are two types of skills:
+1) Personal skills: It is written in claude home folder ~/.claude/skills and it is available across all your projects.
+2) Project Skills: These are available across your project and can be share with the teammates. It will be only applied to your project.
+
+Ways to create skills:
+1) Create Manually that is write detailed descriptio about skill minute each and everything about it (not good for beginner).
+2) Using Claude Chabot itself using skill-creator
+3) Install skills from community-resources but we need to use this skill more properly as it can cause security flaw.
+4) Use Antropic's standard skils
+
+Steps to create a skill:
+->Identify the need : only create skill for a specialized task and which is a complex task and is repetative.
+->create a directory and write a skill.md file
+->Add supporting files(if needed)
+->Test the skills.
+->Iterate and Improve
+
+Design Front-end web design using skill

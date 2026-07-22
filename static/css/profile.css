@@ -1,0 +1,233 @@
+/* ------------------------------------------------------------------ */
+/* Profile page — Step 4 (design only)                                 */
+/* Uses only :root tokens from style.css — no hardcoded hex values.    */
+/* ------------------------------------------------------------------ */
+
+.profile-section {
+    padding: 3rem 1.5rem 4rem;
+}
+
+.profile-container {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* --- Shared card surface ------------------------------------------- */
+
+.profile-card {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.75rem;
+}
+
+/* --- 1. User info card --------------------------------------------- */
+
+.profile-user {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.profile-avatar {
+    flex: 0 0 auto;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    line-height: 1;
+}
+
+.profile-name {
+    font-family: var(--font-display);
+    color: var(--ink);
+    font-size: 1.9rem;
+    font-weight: 400;
+}
+
+.profile-email {
+    color: var(--ink-muted);
+    font-size: 0.95rem;
+}
+
+.profile-meta {
+    color: var(--ink-faint);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
+/* --- 2. Summary stats row ------------------------------------------ */
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+
+.stat-tile {
+    background: var(--paper-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stat-label {
+    color: var(--ink-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stat-value {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    line-height: 1.1;
+}
+
+/* --- Section headings ---------------------------------------------- */
+
+.section-heading {
+    font-family: var(--font-display);
+    color: var(--ink);
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 1.25rem;
+}
+
+/* --- 3. Transaction history table ---------------------------------- */
+
+.txn-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.txn-table th {
+    color: var(--ink-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: left;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.txn-table td {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.txn-table tr:last-child td {
+    border-bottom: none;
+}
+
+.txn-amount {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- Category badges (class-based colours, no inline styles) ------- */
+
+.cat-badge {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    background: var(--paper-warm);
+    color: var(--ink-soft);
+    border: 1px solid var(--border);
+}
+
+.cat-badge--food {
+    background: var(--accent-light);
+    color: var(--accent);
+    border-color: var(--accent-light);
+}
+
+.cat-badge--bills {
+    background: var(--danger-light);
+    color: var(--danger);
+    border-color: var(--danger-light);
+}
+
+.cat-badge--shopping {
+    background: var(--accent-2-light);
+    color: var(--accent-2);
+    border-color: var(--accent-2-light);
+}
+
+/* Transport, Health, Entertainment, Other fall back to the neutral base. */
+
+/* --- 4. Category breakdown ----------------------------------------- */
+
+.cat-row {
+    display: grid;
+    grid-template-columns: 130px 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.cat-bar {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border: none;
+    border-radius: 999px;
+    background: var(--border-soft);
+    overflow: hidden;
+}
+
+.cat-bar::-webkit-progress-bar {
+    background: var(--border-soft);
+    border-radius: 999px;
+}
+
+.cat-bar::-webkit-progress-value {
+    background: var(--accent);
+    border-radius: 999px;
+}
+
+.cat-bar::-moz-progress-bar {
+    background: var(--accent);
+    border-radius: 999px;
+}
+
+.cat-amount {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- Responsive ----------------------------------------------------- */
+
+@media (max-width: 720px) {
+    .profile-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-user {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cat-row {
+        grid-template-columns: 100px 1fr auto;
+        gap: 0.75rem;
+    }
+}
