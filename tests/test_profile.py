@@ -65,13 +65,13 @@ def test_profile_shows_stats_and_table(client):
     _login(client)
     resp = client.get("/profile")
     body = resp.data
-    # Summary stats: total + top category.
+    # Summary stats: total + top category (real seed data).
     assert b"287.39" in body
     assert b"Shopping" in body
-    # Transaction table: at least three distinct hardcoded rows.
-    assert b"Weekly groceries" in body
+    # Transaction table: real seed expense descriptions.
+    assert b"New running shoes" in body
     assert b"Electricity bill" in body
-    assert b"New headphones" in body
+    assert b"Monthly metro top-up" in body
 
 
 def test_profile_navbar_links_to_profile(client):

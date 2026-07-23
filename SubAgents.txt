@@ -1,0 +1,71 @@
+What is the need of SubAgents and what problem does it solve?
+-> LLMs are stateless by nature means they dont have memory.
+The main flow of any LLM request-response is there is always
+a wrapper API around every LLM through which we can communicate.
+We will send the query to the API, the API will further ask to
+LLM and then the API will get back to us with a response which
+LLM gave it to API.
+
+->The main problem with this is while chatting with any chatbot
+or LLM, for every new question as we know the LLM do not have
+memory, send the whole coversation history to answer the new query
+so that LLM can understand the context.
+
+->But, this can turn very wrong while working with coding assistant
+because the job of coding assistant is very complex as they need to
+got through the whole database once and then answer each query. Now
+as LLM's are stateless, for every new question/query to be answered
+it will send the entire codebase along with the whole conversation
+history, and now we can imagine that this will take a huge amount 
+of context window that large number of tokens will be consumed and
+thus the cost.
+
+What are SubAgents and How can they solve this ?
+-> SubAgents are specialised AI assistants that run in their own
+isolated context window - doing heavy lifting in a separate space and
+handling back only what matters and after completing all the things it
+will return all response to the main assistant and the subagent context
+window is then deleted.
+
+-> So, the main/parent context window will contain summary of all
+the information that the subagent ran and with few tokens and context
+window being used. And this technique helps solve two major problems
+1) Context Window Overflow
+2) The Loss of Context in Long Conversation.
+
+Why and Where to Use the SubAgents ?
+-> Context Isolation : Here, we get a completly new context window for
+our subagent and we can perform any complext tasks here.
+
+-> Specialized Subagent : We can create different subagents for our
+different complext tasks like Research Subagent, Coding Subagent, 
+Planing Subagent etc, Audit Subagent, Security Subagent and we can design
+each agent according to ourselves and give access to whatever tools we want.
+
+-> Modularity : As we use different subagents for our different complex
+tasks so our Lifecycle of software becomes modular and clean.
+
+-> Parallelism : Using SubAgents, we can introduce Parallelism as each 
+Subagent has its own context window so we can run multiple subagent
+for our different tasks at same point of time. For example, performing
+EDA of three different datasets at once as they are not dependent.
+
+Usecases:
+->Codebase Exploration
+->Independent Code Review
+->Verification and Validation
+->Multi-Stage Pipeline : One task output is used as input for another task
+->Parallel Independent Task
+->Security Auditing
+
+Types of Subagents:
+->Built-in Subagents : Provided by Claude Code
+Explore Subagents, Plan Subagent - Plan Mode, General Purpose Subagent
+-> Custom Subagent
+
+How does Subagents gets triggered ? 
+-> There are two ways in which the subagents gets triggered:
+1) Implicit : Claude is that much capable to understand that when to trigger
+the subagent.
+2) Explicit : Here, we tell the claude code assistant Explicitly to use its
+subagent for our complex task

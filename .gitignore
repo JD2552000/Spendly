@@ -2,6 +2,7 @@
 expense_tracker.db
 .DS_Store
 .claude/plans/
+.claude/observe/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
